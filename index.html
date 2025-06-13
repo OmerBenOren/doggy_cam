@@ -2,63 +2,55 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
   <title>Doggy Cam</title>
   <style>
-    body {
-      background-color: #7E8A6A;
-      font-family: "Segoe UI", sans-serif;
+    html, body {
       margin: 0;
       padding: 0;
-      text-align: center;
+      overflow: hidden;
+      background-color: #7E8A6A;
+      font-family: "Segoe UI", sans-serif;
       color: black;
+      height: 100vh;
+      width: 100vw;
     }
 
-    #splash {
-      position: fixed;
-      background: black;
-      color: white;
-      width: 100%;
-      height: 100%;
-      top: 0; left: 0;
+    #wrapper {
+      transform: rotate(90deg);
+      transform-origin: center center;
+      width: 100vh;
+      height: 100vw;
+      position: absolute;
+      top: 0;
+      left: 0;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
-      z-index: 1000;
-    }
-
-    #splash img {
-      width: 150px;
-      margin-bottom: 20px;
+      justify-content: center;
     }
 
     h1 {
-      margin-top: 10px;
-      font-size: 28px;
+      font-size: 26px;
+      margin-bottom: 8px;
     }
 
     #video {
-      width: 80%;
-      max-width: 300px;
-      height: auto;
-      aspect-ratio: 4/3;
+      width: 250px;
       background: black;
-      margin-top: 5px;
-      position: relative;
     }
 
     #fps {
       position: absolute;
-      top: 5px;
-      right: 10px;
+      top: 10px;
+      right: 20px;
       background: black;
       color: white;
       font-size: 12px;
     }
 
     .arrows, .sliders, .controls {
-      margin: 10px auto;
+      margin: 8px auto;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -95,6 +87,21 @@
       font-size: 12px;
       margin-top: -5px;
     }
+
+    #splash {
+      position: fixed;
+      background: black;
+      color: white;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
   </style>
 </head>
 <body>
@@ -103,51 +110,53 @@
     <p>Doggy-Cam is loading...<br>Please Wait</p>
   </div>
 
-  <h1>DOGGY CAM</h1>
+  <div id="wrapper">
+    <h1>DOGGY CAM</h1>
 
-  <div class="arrows">
-    <div style="flex-basis: 100%;"></div>
-    <button>▲</button>
-    <div style="flex-basis: 100%;"></div>
-    <button>◀</button>
-    <button>▶</button>
-    <div style="flex-basis: 100%;"></div>
-    <button>▼</button>
-  </div>
-
-  <p class="hint">Hold Ctrl → Fast | Hold Alt → Slow</p>
-
-  <div style="position: relative; display: inline-block;">
-    <video id="video" autoplay playsinline></video>
-    <div id="fps">FPS: --</div>
-  </div>
-
-  <div class="sliders">
-    <div class="slider-container">
-      <label for="tilt">Tilt (↕)</label>
-      <input type="range" id="tilt" class="vertical-slider" min="-37.5" max="37.5" step="0.1" />
+    <div class="arrows">
+      <div style="flex-basis: 100%;"></div>
+      <button>▲</button>
+      <div style="flex-basis: 100%;"></div>
+      <button>◀</button>
+      <button>▶</button>
+      <div style="flex-basis: 100%;"></div>
+      <button>▼</button>
     </div>
-  </div>
 
-  <div class="sliders">
-    <div class="slider-container">
-      <label for="pan">Pan (⇔)</label>
-      <input type="range" id="pan" min="-180" max="180" step="0.1" />
+    <p class="hint">Hold Ctrl → Fast | Hold Alt → Slow</p>
+
+    <div style="position: relative; display: inline-block;">
+      <video id="video" autoplay playsinline></video>
+      <div id="fps">FPS: --</div>
     </div>
-  </div>
 
-  <div class="controls">
-    <button>Center Pan</button>
-    <button>Center All</button>
-    <button>Center Tilt</button>
-    <button>Exit</button>
-  </div>
+    <div class="sliders">
+      <div class="slider-container">
+        <label for="tilt">Tilt (↕)</label>
+        <input type="range" id="tilt" class="vertical-slider" min="-37.5" max="37.5" step="0.1" />
+      </div>
+    </div>
 
-  <div class="controls hint">
-    <span>CTRL+P</span> &nbsp;&nbsp;&nbsp;
-    <span>CTRL+A</span> &nbsp;&nbsp;&nbsp;
-    <span>CTRL+T</span> &nbsp;&nbsp;&nbsp;
-    <span>CTRL+E</span>
+    <div class="sliders">
+      <div class="slider-container">
+        <label for="pan">Pan (⇔)</label>
+        <input type="range" id="pan" min="-180" max="180" step="0.1" />
+      </div>
+    </div>
+
+    <div class="controls">
+      <button>Center Pan</button>
+      <button>Center All</button>
+      <button>Center Tilt</button>
+      <button>Exit</button>
+    </div>
+
+    <div class="controls hint">
+      <span>CTRL+P</span> &nbsp;&nbsp;&nbsp;
+      <span>CTRL+A</span> &nbsp;&nbsp;&nbsp;
+      <span>CTRL+T</span> &nbsp;&nbsp;&nbsp;
+      <span>CTRL+E</span>
+    </div>
   </div>
 
   <script>
