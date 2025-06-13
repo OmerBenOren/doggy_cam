@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Doggy Cam</title>
+  <style>
+    body {
+      background-color: #7E8A6A;
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      color: black;
+    }
+
+    #splash {
+      position: fixed;
+      background: black;
+      color: white;
+      width: 100%;
+      height: 100%;
+      top: 0; left: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    #splash img {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      margin-top: 10px;
+      font-size: 28px;
+    }
+
+    #video {
+      width: 90%;
+      max-width: 400px;
+      background: black;
+      margin-top: 10px;
+      position: relative;
+    }
+
+    #fps {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      background: black;
+      color: white;
+      font-size: 12px;
+    }
+
+    .arrows, .sliders, .controls {
+      margin: 20px auto;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #C8D6AF;
+      border: none;
+      border-radius: 8px;
+      padding: 15px;
+      font-size: 20px;
+      font-weight: bold;
+      box-shadow: 2px 2px 4px #444;
+    }
+
+    button:active {
+      background-color: #AAB694;
+    }
+
+    .slider-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .vertical-slider {
+      writing-mode: bt-lr;
+      transform: rotate(270deg);
+      height: 150px;
+    }
+
+    .dog {
+      width: 80px;
+    }
+
+    .hint {
+      font-size: 12px;
+      margin-top: -10px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="splash">
+    <img src="doggy-cam-transparent.png" alt="Doggy Logo" />
+    <p>Doggy-Cam is loading...<br>Please Wait</p>
+  </div>
+
+  <h1>DOGGY CAM</h1>
+
+  <div class="arrows">
+    <div style="flex-basis: 100%;"></div>
+    <button>▲</button>
+    <div style="flex-basis: 100%;"></div>
+    <button>◀</button>
+    <button>▶</button>
+    <div style="flex-basis: 100%;"></div>
+    <button>▼</button>
+  </div>
+
+  <p class="hint">Hold Ctrl → Fast | Hold Alt → Slow</p>
+
+  <div style="position: relative; display: inline-block;">
+    <video id="video" autoplay playsinline></video>
+    <div id="fps">FPS: --</div>
+  </div>
+
+  <div class="sliders">
+    <div class="slider-container">
+      <label for="tilt">Tilt (↕)</label>
+      <input type="range" id="tilt" class="vertical-slider" min="-37.5" max="37.5" step="0.1" />
+    </div>
+  </div>
+
+  <div class="sliders">
+    <div class="slider-container">
+      <img src="doggy-cam-transparent.png" class="dog" alt="Dog" />
+      <label for="pan">Pan (⇔)</label>
+      <input type="range" id="pan" min="-180" max="180" step="0.1" />
+    </div>
+  </div>
+
+  <div class="controls">
+    <button>Center Pan</button>
+    <button>Center All</button>
+    <button>Center Tilt</button>
+    <button>Exit</button>
+  </div>
+
+  <div class="controls hint">
+    <span>CTRL+P</span> &nbsp;&nbsp;&nbsp;
+    <span>CTRL+A</span> &nbsp;&nbsp;&nbsp;
+    <span>CTRL+T</span> &nbsp;&nbsp;&nbsp;
+    <span>CTRL+E</span>
+  </div>
+
+  <script>
+    // Splash screen timeout
+    setTimeout(() => {
+      document.getElementById("splash").style.display = "none";
+    }, 1500);
+
+    // Activate camera
+    const video = document.getElementById("video");
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => video.srcObject = stream)
+      .catch(err => alert("Camera access denied: " + err.message));
+  </script>
+
+</body>
+</html>
