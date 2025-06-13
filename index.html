@@ -39,10 +39,12 @@
     }
 
     #video {
-      width: 90%;
-      max-width: 400px;
+      width: 80%;
+      max-width: 300px;
+      height: auto;
+      aspect-ratio: 4/3;
       background: black;
-      margin-top: 10px;
+      margin-top: 5px;
       position: relative;
     }
 
@@ -56,7 +58,7 @@
     }
 
     .arrows, .sliders, .controls {
-      margin: 20px auto;
+      margin: 10px auto;
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
@@ -67,7 +69,7 @@
       background-color: #C8D6AF;
       border: none;
       border-radius: 8px;
-      padding: 15px;
+      padding: 12px;
       font-size: 20px;
       font-weight: bold;
       box-shadow: 2px 2px 4px #444;
@@ -86,23 +88,18 @@
     .vertical-slider {
       writing-mode: bt-lr;
       transform: rotate(270deg);
-      height: 150px;
-    }
-
-    .dog {
-      width: 80px;
+      height: 100px;
     }
 
     .hint {
       font-size: 12px;
-      margin-top: -10px;
+      margin-top: -5px;
     }
   </style>
 </head>
 <body>
 
   <div id="splash">
-    <img src="doggy-cam-transparent.png" alt="Doggy Logo" />
     <p>Doggy-Cam is loading...<br>Please Wait</p>
   </div>
 
@@ -134,7 +131,6 @@
 
   <div class="sliders">
     <div class="slider-container">
-      <img src="doggy-cam-transparent.png" class="dog" alt="Dog" />
       <label for="pan">Pan (⇔)</label>
       <input type="range" id="pan" min="-180" max="180" step="0.1" />
     </div>
@@ -155,16 +151,23 @@
   </div>
 
   <script>
-    // Splash screen timeout
     setTimeout(() => {
       document.getElementById("splash").style.display = "none";
     }, 1500);
 
-    // Activate camera
     const video = document.getElementById("video");
-    navigator.mediaDevices.getUserMedia({ video: true })
-      .then(stream => video.srcObject = stream)
-      .catch(err => alert("Camera access denied: " + err.message));
+    navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: { exact: "environment" }
+      }
+    })
+    .then(stream => video.srcObject = stream)
+    .catch(err => {
+      alert("Rear camera not available. Falling back to default.");
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => alert("Camera failed: " + err.message));
+    });
   </script>
 
 </body>
