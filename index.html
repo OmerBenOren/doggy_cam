@@ -2,90 +2,15 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Doggy Cam</title>
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      overflow: hidden;
+    body {
       background-color: #7E8A6A;
       font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
       color: black;
-      height: 100vh;
-      width: 100vw;
-    }
-
-    #wrapper {
-      transform: rotate(90deg);
-      transform-origin: center center;
-      width: 100vh;
-      height: 100vw;
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    h1 {
-      font-size: 26px;
-      margin-bottom: 8px;
-    }
-
-    #video {
-      width: 250px;
-      background: black;
-    }
-
-    #fps {
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      background: black;
-      color: white;
-      font-size: 12px;
-    }
-
-    .arrows, .sliders, .controls {
-      margin: 8px auto;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    button {
-      background-color: #C8D6AF;
-      border: none;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 20px;
-      font-weight: bold;
-      box-shadow: 2px 2px 4px #444;
-    }
-
-    button:active {
-      background-color: #AAB694;
-    }
-
-    .slider-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .vertical-slider {
-      writing-mode: bt-lr;
-      transform: rotate(270deg);
-      height: 100px;
-    }
-
-    .hint {
-      font-size: 12px;
-      margin-top: -5px;
     }
 
     #splash {
@@ -102,6 +27,96 @@
       align-items: center;
       z-index: 1000;
     }
+
+    h1 {
+      text-align: center;
+      font-size: 26px;
+      margin: 10px 0;
+    }
+
+    .main-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+    }
+
+    .arrows {
+      display: grid;
+      grid-template-columns: 60px;
+      grid-template-rows: 60px 60px 60px;
+      gap: 10px;
+    }
+
+    .arrows button:nth-child(1) { grid-row: 1; grid-column: 1; }
+    .arrows button:nth-child(2) { grid-row: 2; grid-column: 1; justify-self: start; }
+    .arrows button:nth-child(3) { grid-row: 2; grid-column: 1; justify-self: end; }
+    .arrows button:nth-child(4) { grid-row: 3; grid-column: 1; }
+
+    video {
+      width: 260px;
+      background: black;
+    }
+
+    .tilt-slider {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .tilt-slider input {
+      writing-mode: bt-lr;
+      transform: rotate(270deg);
+      height: 120px;
+    }
+
+    .sliders, .controls {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .controls {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .controls .buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    button {
+      background-color: #C8D6AF;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 18px;
+      font-weight: bold;
+      box-shadow: 2px 2px 4px #444;
+    }
+
+    button:active {
+      background-color: #AAB694;
+    }
+
+    .hint {
+      font-size: 12px;
+      text-align: center;
+      margin-top: 5px;
+    }
+
+    label {
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    input[type="range"] {
+      accent-color: #444;
+    }
   </style>
 </head>
 <body>
@@ -110,52 +125,40 @@
     <p>Doggy-Cam is loading...<br>Please Wait</p>
   </div>
 
-  <div id="wrapper">
-    <h1>DOGGY CAM</h1>
+  <h1>DOGGY CAM</h1>
 
+  <div class="main-row">
     <div class="arrows">
-      <div style="flex-basis: 100%;"></div>
       <button>▲</button>
-      <div style="flex-basis: 100%;"></div>
       <button>◀</button>
       <button>▶</button>
-      <div style="flex-basis: 100%;"></div>
       <button>▼</button>
     </div>
 
-    <p class="hint">Hold Ctrl → Fast | Hold Alt → Slow</p>
-
-    <div style="position: relative; display: inline-block;">
+    <div class="video-container">
       <video id="video" autoplay playsinline></video>
-      <div id="fps">FPS: --</div>
     </div>
 
-    <div class="sliders">
-      <div class="slider-container">
-        <label for="tilt">Tilt (↕)</label>
-        <input type="range" id="tilt" class="vertical-slider" min="-37.5" max="37.5" step="0.1" />
-      </div>
+    <div class="tilt-slider">
+      <label for="tilt">Tilt (↕)</label>
+      <input type="range" id="tilt" min="-37.5" max="37.5" step="0.1" />
     </div>
+  </div>
 
-    <div class="sliders">
-      <div class="slider-container">
-        <label for="pan">Pan (⇔)</label>
-        <input type="range" id="pan" min="-180" max="180" step="0.1" />
-      </div>
-    </div>
+  <div class="sliders">
+    <label for="pan">Pan (⇔)</label>
+    <input type="range" id="pan" min="-180" max="180" step="0.1" style="width: 80%;" />
+  </div>
 
-    <div class="controls">
+  <div class="controls">
+    <div class="buttons">
       <button>Center Pan</button>
       <button>Center All</button>
       <button>Center Tilt</button>
       <button>Exit</button>
     </div>
-
-    <div class="controls hint">
-      <span>CTRL+P</span> &nbsp;&nbsp;&nbsp;
-      <span>CTRL+A</span> &nbsp;&nbsp;&nbsp;
-      <span>CTRL+T</span> &nbsp;&nbsp;&nbsp;
-      <span>CTRL+E</span>
+    <div class="hint">
+      CTRL+P &nbsp; | &nbsp; CTRL+A &nbsp; | &nbsp; CTRL+T &nbsp; | &nbsp; CTRL+E
     </div>
   </div>
 
